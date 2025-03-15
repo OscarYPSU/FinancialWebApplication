@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using 
 
 namespace FinancialWebApplication.Models
 {
@@ -11,7 +12,7 @@ namespace FinancialWebApplication.Models
         public int TransactionId { get; set; }
 
         [Required]
-        public string AccountKey { get; set; }
+        public string AccountKey { get; set; } 
 
         [ForeignKey("AccountKey")]
         public AccountDetails AccountDetails { get; set; }
@@ -24,7 +25,7 @@ namespace FinancialWebApplication.Models
         public decimal Amount { get; set; } // Amount of the transaction
 
         [Required]
-        public DateTime TransactionDate { get; set; } = DateTime.Now; // Default to current date and time
+        public DateTime TransactionDate { get; set; } // Date and Time of the transactions
 
         public string Description { get; set; } // Optional description of the transaction
 
