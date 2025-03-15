@@ -8,5 +8,10 @@
 
 - Learned about foreign keys, usually one to many meaning foreign key should be created inside the table that will have multiple entries of the primary key in another table
 
+- Implemented Log out and appropaite permission
+
+- Created a separate layout for when user is logged in
+
+-Created a simple crud application for transaction ||| Didnt implement the sql database integration yet
 
 - Deploy the website to public domains using AWS cloud so talk about cloud familiarities and suage

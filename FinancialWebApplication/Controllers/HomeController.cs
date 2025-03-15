@@ -2,6 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FinancialWebApplication.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace FinancialWebApplication.Controllers;
 
@@ -42,5 +44,19 @@ public class HomeController : Controller
         ViewData["AccountBudget"] = AccountBudget;
 
         return View();
+    }
+
+    [Authorize]
+    public IActionResult transactions()
+    {
+        return View();
+    }
+
+    [Authorize]
+    public async Task<IActionResult> LogOut()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        return RedirectToAction("Index", "Login");
     }
 }

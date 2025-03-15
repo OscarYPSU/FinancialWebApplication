@@ -1,5 +1,34 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model FinancialWebApplication.Models.Transactions
+
 @{
+    // This sets a page title in the ViewData dictionary, which you might use in a layout.
+    Layout = "_LayOutLoggedIn"; // Use the logged-in layout
+    ViewData["Title"] = "Transactions";
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <!-- Transaction form -->
+    <form asp-action="Transaction" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div>
+            <label asp-for="TransactionType">Transaction Type:</label>
+            <select asp-for="TransactionType" required>
+                <option value="">Select...</option>
+                <option value="Deposit">Deposit</option>
+                <option value="Withdrawal">Withdrawal</option>
+            </select>
+            <span asp-validation-for="TransactionType" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Amount">Amount:</label>
+            <input asp-for="Amount" type="number" step="0.01" required />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+        <button type="submit">Submit Transaction</button>
+    </form>
+</body>
+</html>

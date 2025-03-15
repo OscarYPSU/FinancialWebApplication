@@ -25,6 +25,14 @@ namespace FinancialWebApplication.Controllers
             // Here you would typically save the new account to the database
             if (ModelState.IsValid)
             {
+                var existingAccount = _context.Account.FirstOrDefault(a => a.Username == account.Username);
+
+                if (existingAccount != null)
+                {
+                    ModelState.AddModelError("Username", "This username is already taken.");
+                    return View(account);
+                }
+
                 // If the account is valid, create a new account object
                 var SignUpAccount = new Account
                 {
