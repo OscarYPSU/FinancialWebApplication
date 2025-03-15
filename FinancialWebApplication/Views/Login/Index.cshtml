@@ -1,0 +1,53 @@
+﻿@model FinancialWebApplication.Models.Account
+
+@{
+    // This sets a page title in the ViewData dictionary, which you might use in a layout.
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Load React library -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <!-- Load ReactDOM library -->
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Load Babel to transpile JSX on the fly -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <!-- The React app will be mounted into this element -->
+    <div id="root"></div>
+    <!-- React code written in JSX that Babel will transpile -->
+    <script type="text/babel">
+        // Define a React functional component
+        function App() {
+            // Return some JSX that will render as HTML
+            return <h1>Login</h1>;
+        }
+        // Mount the React component into the DOM element with id 'root'
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+    <!-- Signup submits -->
+    <form asp-action="Index" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div>
+            <label asp-for="Username">Username:</label>
+            <input asp-for="Username" type="text" required />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Password">Password:</label>
+            <input asp-for="Password" type="password" required />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+
+
+
+
+</body>
+</html>

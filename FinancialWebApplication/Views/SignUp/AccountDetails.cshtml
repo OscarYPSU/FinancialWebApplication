@@ -1,0 +1,27 @@
+﻿@model FinancialWebApplication.Models.AccountDetails
+@{
+    ViewData["Title"] = "Register information";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head></head>
+    <body>
+    <!-- Account details submits -->
+    <form asp-action = "AccountDetails" method="post">
+        <!-- Hidden form capture account key -->
+        <div>
+            <input asp-for="AccountKey" type="hidden" />
+        </div>
+        <div>
+            <label asp-for="FirstName">First Name:</label>
+            <input asp-for="FirstName" type="text" required />
+        </div>
+        <div>
+            <label asp-for="LastName">Last Name:</label>
+            <input asp-for="LastName" type="text " required />
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    </body>
+</html>

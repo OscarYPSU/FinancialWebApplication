@@ -1,0 +1,12 @@
+- Description of the project
+
+- Optimizing SQL database using indexing and closed sql pool leaks, also using stored procedures
+
+- Configured HTTP and outing and created a fully scalable application using MVC system using appropriate POST GET standard HTTPs
+
+- Implemented authentication and authorization process using cookie cache based security
+
+- Learned about foreign keys, usually one to many meaning foreign key should be created inside the table that will have multiple entries of the primary key in another table
+
+
+- Deploy the website to public domains using AWS cloud so talk about cloud familiarities and suage
