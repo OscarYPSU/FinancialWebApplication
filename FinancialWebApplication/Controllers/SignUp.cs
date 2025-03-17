@@ -79,7 +79,7 @@ namespace FinancialWebApplication.Controllers
                 _context.SaveChanges();
 
                 // redirects to home page, ideally to a login page after implementation
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
             }
 
             return View();
