@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinancialWebApplication.Models
 {
@@ -13,7 +14,8 @@ namespace FinancialWebApplication.Models
         [Required(ErrorMessage = "Last name is required.")]
         public string? LastName { get; set; }
 
-        public int AccountBudget { get; set; } = 250; // Default budget
+        [Precision(20, 2)]
+        public decimal AccountBudget { get; set; } = 250; // Default budget
 
         public ICollection<Transactions>? Transactions { get; set; }
 

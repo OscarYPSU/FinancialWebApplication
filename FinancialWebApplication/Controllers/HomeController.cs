@@ -60,21 +60,24 @@ public class HomeController : Controller
     public IActionResult transactions(Transactions Model)
     {
         var accountKeyClaim = User.FindFirst("AccountKey").Value;
-        var AccountDetails = _context.AccountDetails.FirstOrDefault(a => a.AccountKey == accountKeyClaim);
+        var Account = _context.AccountDetails.FirstOrDefault(a => a.AccountKey == accountKeyClaim);
 
 
         var NewTransaction = new Transactions
         {
             AccountKey = accountKeyClaim,
-            AccountDetails = AccountDetails, // link to the account details
+            AccountDetails = Account, // link to the account details
             TransactionType = Model.TransactionType,
             Amount = Model.Amount,
             TransactionDate = DateTime.Now,
             Description = Model.Description
         };
 
+        Account.AccountBudget -= Model.Amount; // updates the account budget after transaction
         _context.Transactions.Add(NewTransaction); // adds the transaction to the database
         _context.SaveChanges();
+
+        ViewData["AccountBudget"] = Account.AccountBudget; // updates the view data with the new budget
 
         return RedirectToAction("Transactions", "Home"); // redirects to the home page after transaction
     }
