@@ -17,5 +17,7 @@ namespace FinancialWebApplication.Data
         public DbSet<FinancialWebApplication.Models.Account> Account { get; set; } = default!;
         
         public DbSet<FinancialWebApplication.Models.AccountDetails> AccountDetails { get; set; } = default!;
+
+        public DbSet<FinancialWebApplication.Models.Transactions> Transactions { get; set; } = default!;
     }
 }

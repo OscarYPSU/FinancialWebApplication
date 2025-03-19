@@ -12,6 +12,6 @@
 
 - Created a separate layout for when user is logged in
 
--Created a simple crud application for transaction ||| Didnt implement the sql database integration yet
+-Created a simple crud application for transaction that also affected accountdetails DB
 
 - Deploy the website to public domains using AWS cloud so talk about cloud familiarities and suage

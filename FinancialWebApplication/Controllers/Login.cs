@@ -44,6 +44,7 @@ namespace FinancialWebApplication.Controllers
                     new Claim(ClaimTypes.Name, UserDetail.FirstName),
                     new Claim("lastName", UserDetail.LastName),
                     new Claim("AccountBudget", UserDetail.AccountBudget.ToString()),
+                    new Claim("AccountKey", user.AccountKey),
                     // find out how to utilize roles
                     // new Claim(ClaimTypes.Role, "Administrator"),
                 };

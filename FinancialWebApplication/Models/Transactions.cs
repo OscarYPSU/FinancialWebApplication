@@ -10,11 +10,10 @@ namespace FinancialWebApplication.Models
         [Key]
         public int TransactionId { get; set; }
 
-        [Required]
-        public string AccountKey { get; set; } 
+        public string? AccountKey { get; set; } 
 
         [ForeignKey("AccountKey")]
-        public AccountDetails AccountDetails { get; set; }
+        public AccountDetails? AccountDetails { get; set; }
 
         [Required]
         public string TransactionType { get; set; } // e.g., "Deposit", "Withdrawal"
@@ -23,7 +22,6 @@ namespace FinancialWebApplication.Models
         [Precision(20, 2)]
         public decimal Amount { get; set; } // Amount of the transaction
 
-        [Required]
         public DateTime TransactionDate { get; set; } // Date and Time of the transactions
 
         public string Description { get; set; } // Optional description of the transaction
