@@ -78,8 +78,10 @@ public class HomeController : Controller
         _context.SaveChanges();
 
         ViewData["AccountBudget"] = Account.AccountBudget; // updates the view data with the new budget
+        ViewData["FirstName"] = Account.FirstName;
+        ViewData["LastName"] = Account.LastName;
 
-        return RedirectToAction("Transactions", "Home"); // redirects to the home page after transaction
+        return View("LoggedHome"); // redirects to the home page after transaction
     }
 
 
