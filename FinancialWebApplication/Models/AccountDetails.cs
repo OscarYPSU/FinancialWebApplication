@@ -19,5 +19,7 @@ namespace FinancialWebApplication.Models
 
         public ICollection<Transactions>? Transactions { get; set; }
 
+        public DateOnly LastUpdated { get; set; } = DateOnly.FromDateTime(DateTime.Now); // Default to today
+
     }
 }

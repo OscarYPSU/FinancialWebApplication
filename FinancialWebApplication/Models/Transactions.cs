@@ -15,8 +15,7 @@ namespace FinancialWebApplication.Models
         [ForeignKey("AccountKey")]
         public AccountDetails? AccountDetails { get; set; }
 
-        [Required]
-        public string TransactionType { get; set; } // e.g., "Deposit", "Withdrawal"
+        public string? TransactionType { get; set; } // e.g., "Deposit", "Withdrawal"
 
         [Required]
         [Precision(20, 2)]

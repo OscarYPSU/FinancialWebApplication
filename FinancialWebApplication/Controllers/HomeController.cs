@@ -42,9 +42,9 @@ public class HomeController : Controller
         var LastName = User.FindFirst("lastName").Value;
         var AccountBudget = User.FindFirst("AccountBudget").Value;
 
-        ViewData["FirstName"] = FirstName;
-        ViewData["LastName"] = LastName;
-        ViewData["AccountBudget"] = AccountBudget;
+        TempData["FirstName"] = FirstName;
+        TempData["LastName"] = LastName;
+        TempData["AccountBudget"] = AccountBudget;
 
         return View();
     }
@@ -77,9 +77,9 @@ public class HomeController : Controller
         _context.Transactions.Add(NewTransaction); // adds the transaction to the database
         _context.SaveChanges();
 
-        ViewData["AccountBudget"] = Account.AccountBudget; // updates the view data with the new budget
-        ViewData["FirstName"] = Account.FirstName;
-        ViewData["LastName"] = Account.LastName;
+        TempData["AccountBudget"] = Account.AccountBudget; // updates the view data with the new budget
+        TempData["FirstName"] = Account.FirstName;
+        TempData["LastName"] = Account.LastName;
 
         return View("LoggedHome"); // redirects to the home page after transaction
     }

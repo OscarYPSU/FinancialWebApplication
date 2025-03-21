@@ -14,4 +14,8 @@
 
 -Created a simple crud application for transaction that also affected accountdetails DB
 
+- Dynamically updates the user view for their budget when they add transaction using tempdata so data survives a redirection url
+
+- implemented monthly reset for budget that checks current date month with user's last updated month that is stored in the accountdetail DB to check if monthly budget needs to be reset. 
+
 - Deploy the website to public domains using AWS cloud so talk about cloud familiarities and suage

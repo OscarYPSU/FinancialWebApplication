@@ -39,6 +39,7 @@ namespace FinancialWebApplication.Controllers
             {
                 var UserDetail = _context.AccountDetails.FirstOrDefault(u => u.AccountKey == user.AccountKey);
 
+                // Sets up the claims for the authenticated user
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, UserDetail.FirstName),
@@ -59,6 +60,15 @@ namespace FinancialWebApplication.Controllers
                    CookieAuthenticationDefaults.AuthenticationScheme,
                    new ClaimsPrincipal(ClaimsIdentity),
                    AuthProperties);
+
+                // Everytime user logs in, check if their account budget needs to be monthly resetted
+                if (UserDetail.LastUpdated.Month != DateTime.Now.Month)
+                {
+                    UserDetail.AccountBudget = 250; // Reset budget to default
+                    UserDetail.LastUpdated = DateOnly.FromDateTime(DateTime.Now); // Update last updated date
+                    _context.Update(UserDetail);
+                    await _context.SaveChangesAsync();
+                }
 
                 return RedirectToAction("LoggedHome", "Home");
             } else

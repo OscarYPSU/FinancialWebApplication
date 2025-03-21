@@ -4,6 +4,7 @@ using FinancialWebApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancialWebApplication.Migrations
 {
     [DbContext(typeof(FinancialWebApplicationContext))]
-    partial class FinancialWebApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250321090231_UpdatingTransactionDB")]
+    partial class UpdatingTransactionDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,9 +69,6 @@ namespace FinancialWebApplication.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("LastUpdated")
-                        .HasColumnType("date");
 
                     b.HasKey("AccountKey");
 
