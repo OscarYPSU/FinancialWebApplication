@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Transactions>
+
+@{
     Layout = "_LayOutLoggedIn";
     ViewData["Title"] = "Home Page";
 }
@@ -7,3 +9,24 @@
     <h1 class="display-4">Hello @TempData["FirstName"] @TempData["LastName"]!</h1>
     <h2> Budget: @TempData["AccountBudget"]$</h2>
 </div>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Transaction Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.Description</td>
+                <td>@transaction.Amount</td>
+                <td>@transaction.TransactionDate</td>
+            </tr>
+        }
+    </tbody>
+</table>

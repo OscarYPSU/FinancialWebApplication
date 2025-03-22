@@ -46,7 +46,8 @@ public class HomeController : Controller
         TempData["LastName"] = LastName;
         TempData["AccountBudget"] = AccountBudget;
 
-        return View();
+        var datas = _context.Transactions.Where(s => s.AccountKey == User.FindFirst("AccountKey").Value).ToList();
+        return View(datas);
     }
 
     [Authorize]
@@ -81,7 +82,9 @@ public class HomeController : Controller
         TempData["FirstName"] = Account.FirstName;
         TempData["LastName"] = Account.LastName;
 
-        return View("LoggedHome"); // redirects to the home page after transaction
+        var datas = _context.Transactions.Where(s => s.AccountKey == User.FindFirst("AccountKey").Value && s.TransactionDate.Month == DateTime.Now.Month).ToList();
+
+        return View("LoggedHome", datas); // redirects to the home page after transaction
     }
 
 
