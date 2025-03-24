@@ -20,4 +20,15 @@
 
 - Added a table view in the home page that displays all the transaction that occurred within this month
 
+- Only saved userAccountKey to cache when logged in
+
+- Changed tempdata to receive the data from the database directly
+
+- Added delete transaction button that dynamically removes the transaction and updates the accountbudget stimutaensouly
+
+
+
+
+
+
 - Deploy the website to public domains using AWS cloud so talk about cloud familiarities and suage
