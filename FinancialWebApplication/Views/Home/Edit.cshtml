@@ -1,18 +1,22 @@
 ﻿@model FinancialWebApplication.Models.Transactions
+@{
+    Layout = "_LayOutLoggedIn";
+    ViewData["Title"] = "Edit";
+}
+
 
 <h2>Edit Transaction</h2>
 
-<form asp-action="EditTransaction" method="post">
+<form asp-action="Edit" method="post">
     <div>
-        <label for="TransactionId">Transaction ID</label>
-        <input type="number" id="TransactionId" name="TransactionId" value="@Model.TransactionId" required />
+        <input type="hidden" id="TransactionId" name="TransactionId" value="@Model.TransactionId"/>
     </div>
 
     <div class="form-group">
         <label for="TransactionAmount">Amount</label>
-        <input class="form-control" type="number" />
+        <input name="TransactionAmount" class="form-control" type="number" />
         <label for="Description">Description</label>
-        <input class="form-control" type="text"/>
+        <input name="Description" class="form-control" type="text" />
     </div>
 
     <button type="submit" class="btn btn-success">Save Changes</button>

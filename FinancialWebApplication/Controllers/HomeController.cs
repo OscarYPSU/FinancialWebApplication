@@ -108,7 +108,7 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    public IActionResult EditTransaction(int TransactionId)
+    public IActionResult Edit(int TransactionId)
     {
         var Transaction = _context.Transactions.FirstOrDefault(Transaction => Transaction.TransactionId == TransactionId);
 
@@ -122,7 +122,7 @@ public class HomeController : Controller
 
     [Authorize]
     [HttpPost]
-    public IActionResult EditTransaction(int TransactionId, int TransactionAmount, string Description)
+    public IActionResult Edit(int TransactionId, int TransactionAmount, string Description)
     {
         var transaction = _context.Transactions.FirstOrDefault(t => t.TransactionId == TransactionId);
         if (transaction == null)
@@ -132,9 +132,12 @@ public class HomeController : Controller
         {
             var AccountKey = User.FindFirst("AccountKey").Value;
             var Account = _context.AccountDetails.FirstOrDefault(a => a.AccountKey == AccountKey);
-            Account.AccountBudget -= transaction.Amount; // updates the account budget before editing the transaction
-            Account.AccountBudget += TransactionAmount;
+
+            Account.AccountBudget += transaction.Amount; // updates the account budget before editing the transaction
+            Account.AccountBudget -= TransactionAmount;
+
             transaction.Amount = TransactionAmount; // updates the transaction amount
+            transaction.Description = Description; // updates the transaction description
             _context.SaveChanges();
         }
             return RedirectToAction("LoggedHome"); // Redirect to list after saving
@@ -148,4 +151,5 @@ public class HomeController : Controller
 
         return RedirectToAction("Index", "Login");
     }
+
 }
