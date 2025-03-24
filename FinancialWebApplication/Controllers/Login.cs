@@ -42,10 +42,7 @@ namespace FinancialWebApplication.Controllers
                 // Sets up the claims for the authenticated user
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, UserDetail.FirstName),
-                    new Claim("lastName", UserDetail.LastName),
-                    new Claim("AccountBudget", UserDetail.AccountBudget.ToString()),
-                    new Claim("AccountKey", user.AccountKey),
+                    new Claim("AccountKey", user.AccountKey)
                     // find out how to utilize roles
                     // new Claim(ClaimTypes.Role, "Administrator"),
                 };

@@ -38,13 +38,13 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult LoggedHome()
     {
-        var FirstName = User.Identity.Name;
-        var LastName = User.FindFirst("lastName").Value;
-        var AccountBudget = User.FindFirst("AccountBudget").Value;
+        var AccountKey = User.FindFirst("AccountKey").Value;
 
-        TempData["FirstName"] = FirstName;
-        TempData["LastName"] = LastName;
-        TempData["AccountBudget"] = AccountBudget;
+        var user = _context.AccountDetails.Where(s => s.AccountKey == AccountKey).FirstOrDefault();
+
+        TempData["FirstName"] = user.FirstName;
+        TempData["LastName"] = user.LastName;
+        TempData["AccountBudget"] = user.AccountBudget;
 
         var datas = _context.Transactions.Where(s => s.AccountKey == User.FindFirst("AccountKey").Value).ToList();
         return View(datas);
@@ -87,7 +87,28 @@ public class HomeController : Controller
         return View("LoggedHome", datas); // redirects to the home page after transaction
     }
 
+    [Authorize]
+    [HttpPost]
+    public IActionResult Delete(int TransactionId)
+    {
+        var transaction = _context.Transactions.FirstOrDefault(t => t.TransactionId == TransactionId);
+        if (transaction != null)
+        {
+            var AccountKey = User.FindFirst("AccountKey").Value;
 
+            var Account = _context.AccountDetails.FirstOrDefault(a => a.AccountKey == AccountKey);
+            
+            Account.AccountBudget += transaction.Amount; // updates the account budget before deleting the transaction
+
+            _context.Transactions.Remove(transaction); // removes the transaction from the database
+
+            _context.SaveChanges();
+        }      
+
+
+
+        return RedirectToAction("LoggedHome");
+    }
 
     [Authorize]
     public async Task<IActionResult> LogOut()

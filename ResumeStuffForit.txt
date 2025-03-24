@@ -18,4 +18,6 @@
 
 - implemented monthly reset for budget that checks current date month with user's last updated month that is stored in the accountdetail DB to check if monthly budget needs to be reset. 
 
+- Added a table view in the home page that displays all the transaction that occurred within this month
+
 - Deploy the website to public domains using AWS cloud so talk about cloud familiarities and suage

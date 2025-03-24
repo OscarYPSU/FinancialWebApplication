@@ -17,6 +17,7 @@
             <th>Description</th>
             <th>Amount</th>
             <th>Transaction Date</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +27,15 @@
                 <td>@transaction.Description</td>
                 <td>@transaction.Amount</td>
                 <td>@transaction.TransactionDate</td>
+                <td>
+                    <form asp-action="Delete" asp-controller="Home" method="post">
+                        <input type="hidden" name="TransactionId" value="@transaction.TransactionId" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                            Delete
+                        </button>
+                    </form>
+
+                </td>
             </tr>
         }
     </tbody>
