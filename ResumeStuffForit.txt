@@ -26,7 +26,7 @@
 
 - Added delete transaction button that dynamically removes the transaction and updates the accountbudget stimutaensouly
 
-
+-Added edit option to change current transaction
 
 
 
