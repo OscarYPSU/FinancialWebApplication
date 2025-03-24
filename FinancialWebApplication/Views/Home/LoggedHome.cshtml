@@ -28,6 +28,7 @@
                 <td>@transaction.Amount</td>
                 <td>@transaction.TransactionDate</td>
                 <td>
+                    <a asp-action="EditTransaction" asp-route-id="@transaction.TransactionId" class="btn btn-warning">Edit</a>
                     <form asp-action="Delete" asp-controller="Home" method="post">
                         <input type="hidden" name="TransactionId" value="@transaction.TransactionId" />
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">

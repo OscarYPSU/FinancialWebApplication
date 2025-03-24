@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using FinancialWebApplication.Data;
 using FinancialWebApplication.Migrations;
+using System.Transactions;
 
 namespace FinancialWebApplication.Controllers;
 
@@ -88,7 +89,6 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    [HttpPost]
     public IActionResult Delete(int TransactionId)
     {
         var transaction = _context.Transactions.FirstOrDefault(t => t.TransactionId == TransactionId);
@@ -104,11 +104,42 @@ public class HomeController : Controller
 
             _context.SaveChanges();
         }      
-
-
-
         return RedirectToAction("LoggedHome");
     }
+
+    [Authorize]
+    public IActionResult EditTransaction(int TransactionId)
+    {
+        var Transaction = _context.Transactions.FirstOrDefault(Transaction => Transaction.TransactionId == TransactionId);
+
+        if (Transaction == null)
+        {
+            return NotFound();
+        }
+
+        return View(Transaction);
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult EditTransaction(int TransactionId, int TransactionAmount, string Description)
+    {
+        var transaction = _context.Transactions.FirstOrDefault(t => t.TransactionId == TransactionId);
+        if (transaction == null)
+        {
+            return NotFound();
+        } else
+        {
+            var AccountKey = User.FindFirst("AccountKey").Value;
+            var Account = _context.AccountDetails.FirstOrDefault(a => a.AccountKey == AccountKey);
+            Account.AccountBudget -= transaction.Amount; // updates the account budget before editing the transaction
+            Account.AccountBudget += TransactionAmount;
+            transaction.Amount = TransactionAmount; // updates the transaction amount
+            _context.SaveChanges();
+        }
+            return RedirectToAction("LoggedHome"); // Redirect to list after saving
+    }
+
 
     [Authorize]
     public async Task<IActionResult> LogOut()
