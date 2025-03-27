@@ -90,5 +90,43 @@
 
         })
 
+        document.getElementById("right").addEventListener("click", function(){
+
+            if (currentMonth == 12){
+                currentMonth = 1;
+                currentYear += 1;
+            } else {
+                currentMonth += 1;
+            }
+
+            var url = "/TransactionData/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
+
+            fetch(url, {
+                method: "GET",
+                credentials: "include"
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                var displayData =  document.getElementById("transactionDisp");
+
+                displayData.innerHTML = "";
+
+                data.forEach(function(transaction) {
+
+                    var p = document.createElement("p");
+
+                        p.textContent = "Transaction Description: " + transaction.description +
+                                    ", Amount: " + transaction.amount +
+                                        ", Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+
+                    // Append the paragraph element to the transactions section
+                    displayData.appendChild(p);
+                });
+            })
+
+        })
+
     </script>
 }
