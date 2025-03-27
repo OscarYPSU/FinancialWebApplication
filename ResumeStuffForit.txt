@@ -30,5 +30,6 @@
 
 - Developed REST api to send and retrieve data from database such as transactions from specific date to send to front end to display to user. Utilized POstman in development to test REST ful api while being mindful of proper authorization and cookie authentication in postman
 
+- Connected previous button to rest api when clicked, displays the transaction of the previous month dynamically
 
 - Deploy the website to public domains using AWS cloud so talk about cloud familiarities and suage
