@@ -143,6 +143,8 @@ public class HomeController : Controller
             return RedirectToAction("LoggedHome"); // Redirect to list after saving
     }
 
+    // Gets transaction data from transaction table base on month
+    
 
     [Authorize]
     public async Task<IActionResult> LogOut()

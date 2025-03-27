@@ -10,39 +10,85 @@
     <h2> Budget: @TempData["AccountBudget"]$</h2>
 </div>
 
+<button id="left">Previous</button>
+<button id="right">Next</button>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Transaction Date</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var transaction in Model)
-        {
-            <tr>
-                <td>@transaction.Description</td>
-                <td>@transaction.Amount</td>
-                <td>@transaction.TransactionDate</td>
-                <td>
-                    <form method="get" asp-action="Edit" asp-controller="Home">
-                        <!-- Pass the data via hidden fields or input fields -->
-                        <input type="hidden" name="TransactionId" value="@transaction.TransactionId" />
-                        <button type="submit" class="btn btn-danger">Edit</button>
-                    </form>
- 
-                    <form asp-action="Delete" asp-controller="Home" method="post">
-                        <input type="hidden" name="TransactionId" value="@transaction.TransactionId" />
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">
-                            Delete
-                        </button>
-                    </form>
+<div id="transactionDisp"
 
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+@section Scripts {
+    <script>
+        var currentDate = new Date();
+        var currentMonth = currentDate.getMonth() + 1;
+        var currentYear = currentDate.getFullYear();
+
+        document.addEventListener("DOMContentLoaded", function(){
+            var url = "/TransactionData/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
+
+            fetch(url, {
+                method: "GET",
+                credentials: "include"
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                var displayData =  document.getElementById("transactionDisp");
+
+                displayData.innerHTML = ""; 
+
+                data.forEach(function(transaction) {
+
+                    var p = document.createElement("p");
+
+                        p.textContent = "Transaction Description: " + transaction.description +
+                                    ", Amount: " + transaction.amount +
+                                        ", Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+
+                    // Append the paragraph element to the transactions section
+                    displayData.appendChild(p);
+                });
+            })
+            
+        })
+
+        document.getElementById("left").addEventListener("click", function(){
+
+            if (currentMonth == 1){
+                currentMonth = 12;
+                currentYear -= 1; 
+            } else {
+                currentMonth -= 1;
+            }
+
+            var url = "/TransactionData/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
+
+            fetch(url, {
+                method: "GET",
+                credentials: "include"
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                var displayData =  document.getElementById("transactionDisp");
+
+                displayData.innerHTML = "";
+
+                data.forEach(function(transaction) {
+
+                    var p = document.createElement("p");
+
+                        p.textContent = "Transaction Description: " + transaction.description +
+                                    ", Amount: " + transaction.amount +
+                                        ", Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+
+                    // Append the paragraph element to the transactions section
+                    displayData.appendChild(p);
+                });
+            })
+
+        })
+
+    </script>
+}
