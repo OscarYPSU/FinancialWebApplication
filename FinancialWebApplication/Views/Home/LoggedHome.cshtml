@@ -10,11 +10,13 @@
     <h2> Budget: @TempData["AccountBudget"]$</h2>
 </div>
 
+<div id = "currentMonthDisplay"></div>
+
+<div id="transactionDisp", style="display: flex;">
+</div>
+
 <button id="left">Previous</button>
 <button id="right">Next</button>
-
-<div id="transactionDisp"
-
 
 @section Scripts {
     <script>
@@ -34,19 +36,46 @@
             })
             .then(data => {
                 var displayData =  document.getElementById("transactionDisp");
+                var currentMonthDisplay = document.getElementById("currentMonthDisplay");
 
                 displayData.innerHTML = ""; 
+                currentMonthDisplay.innerHTML = "";
+
+                var heading = document.createElement("h2");
+                heading.textContent = "Month " + currentMonth; 
+                currentMonthDisplay.appendChild(heading);
 
                 data.forEach(function(transaction) {
-
                     var p = document.createElement("p");
 
-                        p.textContent = "Transaction Description: " + transaction.description +
-                                    ", Amount: " + transaction.amount +
-                                        ", Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+                    p.style.marginRight = "10px";
+
+                    p.textContent = "Transaction Description: " + transaction.description +
+                                " || Amount: " + transaction.amount +
+                                    "$ || Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+
+                    // Edit Button customization
+                    var editButton = document.createElement("button");
+                    editButton.textContent = "Edit";
+                    editButton.addEventListener("click", function(){
+                        window.location.href = "/Home/Edit?TransactionId=" + transaction.transactionId;
+                    })
+                    editButton.style.backgroundColor = "Yellow";
+                    editButton.style.height = "30px";
+
+                    // Delete Button customization
+                    var deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.addEventListener("click", function(){
+                        window.location.href = "/Home/Delete?TransactionId=" + transaction.transactionId;
+                    })
+                    deleteButton.style.backgroundColor = "Red";
+                    deleteButton.style.height = "30px";
 
                     // Append the paragraph element to the transactions section
-                    displayData.appendChild(p);
+                    displayData.append(p);
+                    displayData.append(editButton);
+                    displayData.append(deleteButton);
                 });
             })
             
@@ -72,19 +101,47 @@
             })
             .then(data => {
                 var displayData =  document.getElementById("transactionDisp");
+                var currentMonthDisplay = document.getElementById("currentMonthDisplay");
 
-                displayData.innerHTML = "";
+                currentMonthDisplay.innerHTML = "";
+                displayData.innerHTML = ""; 
+
+                var heading = document.createElement("h2");
+                heading.textContent = "Month " + currentMonth; 
+                currentMonthDisplay.appendChild(heading);
 
                 data.forEach(function(transaction) {
 
                     var p = document.createElement("p");
 
-                        p.textContent = "Transaction Description: " + transaction.description +
-                                    ", Amount: " + transaction.amount +
-                                        ", Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+                    p.style.marginRight = "10px";
+
+                    p.textContent = "Transaction Description: " + transaction.description +
+                                " || Amount: " + transaction.amount +
+                                    "$ || Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+
+                    // Edit Button customization
+                    var editButton = document.createElement("button");
+                    editButton.textContent = "Edit";
+                    editButton.addEventListener("click", function(){
+                        window.location.href = "/Home/Edit?TransactionId=" + transaction.transactionId;
+                    })
+                    editButton.style.backgroundColor = "Yellow";
+                    editButton.style.height = "30px";
+
+                    // Delete Button customization
+                    var deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.addEventListener("click", function(){
+                        window.location.href = "/Home/Delete?TransactionId=" + transaction.transactionId;
+                    })
+                    deleteButton.style.backgroundColor = "Red";
+                    deleteButton.style.height = "30px";
 
                     // Append the paragraph element to the transactions section
-                    displayData.appendChild(p);
+                    displayData.append(p);
+                    displayData.append(editButton);
+                    displayData.append(deleteButton);
                 });
             })
 
@@ -110,19 +167,46 @@
             })
             .then(data => {
                 var displayData =  document.getElementById("transactionDisp");
+                var currentMonthDisplay = document.getElementById("currentMonthDisplay");
 
-                displayData.innerHTML = "";
+                displayData.innerHTML = ""; 
+                currentMonthDisplay.innerHTML = "";
+
+                var heading = document.createElement("h2");
+                heading.textContent = "Month " + currentMonth; 
+                currentMonthDisplay.appendChild(heading);
 
                 data.forEach(function(transaction) {
-
                     var p = document.createElement("p");
 
-                        p.textContent = "Transaction Description: " + transaction.description +
-                                    ", Amount: " + transaction.amount +
-                                        ", Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+                    p.style.marginRight = "10px";
+
+                    p.textContent = "Transaction Description: " + transaction.description +
+                                " || Amount: " + transaction.amount +
+                                    "$ || Date: " + new Date(transaction.transactionDate).toLocaleDateString();
+
+                    // Edit Button customization
+                    var editButton = document.createElement("button");
+                    editButton.textContent = "Edit";
+                    editButton.addEventListener("click", function(){
+                        window.location.href = "/Home/Edit?TransactionId=" + transaction.transactionId;
+                    })
+                    editButton.style.backgroundColor = "Yellow";
+                    editButton.style.height = "30px";
+
+                    // Delete Button customization
+                    var deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.addEventListener("click", function(){
+                        window.location.href = "/Home/Delete?TransactionId=" + transaction.transactionId;
+                    })
+                    deleteButton.style.backgroundColor = "Red";
+                    deleteButton.style.height = "30px";
 
                     // Append the paragraph element to the transactions section
-                    displayData.appendChild(p);
+                    displayData.append(p);
+                    displayData.append(editButton);
+                    displayData.append(deleteButton);
                 });
             })
 
