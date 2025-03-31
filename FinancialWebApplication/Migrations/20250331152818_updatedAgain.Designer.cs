@@ -4,6 +4,7 @@ using FinancialWebApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancialWebApplication.Migrations
 {
     [DbContext(typeof(FinancialWebApplicationContext))]
-    partial class FinancialWebApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250331152818_updatedAgain")]
+    partial class updatedAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +58,10 @@ namespace FinancialWebApplication.Migrations
                     b.Property<string>("AccountKey")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<decimal>("AccountBudget")
+                        .HasPrecision(20, 2)
+                        .HasColumnType("decimal(20,2)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -73,24 +80,16 @@ namespace FinancialWebApplication.Migrations
 
             modelBuilder.Entity("FinancialWebApplication.Models.MonthlyBudget", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("accountKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateOnly>("budgetMonth")
+                        .HasColumnType("date");
+
+                    b.Property<int>("monthlyBudget")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("AccountBudget")
-                        .HasPrecision(20, 2)
-                        .HasColumnType("decimal(20,2)");
-
-                    b.Property<string>("accountKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("budgetMonth")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
+                    b.HasKey("accountKey");
 
                     b.ToTable("monthlyBudget");
                 });

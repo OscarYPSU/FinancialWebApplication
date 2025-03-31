@@ -45,7 +45,6 @@ public class HomeController : Controller
 
         TempData["FirstName"] = user.FirstName;
         TempData["LastName"] = user.LastName;
-        TempData["AccountBudget"] = user.AccountBudget;
 
         var datas = _context.Transactions.Where(s => s.AccountKey == User.FindFirst("AccountKey").Value).ToList();
         return View(datas);
@@ -63,7 +62,17 @@ public class HomeController : Controller
     {
         var accountKeyClaim = User.FindFirst("AccountKey").Value;
         var Account = _context.AccountDetails.FirstOrDefault(a => a.AccountKey == accountKeyClaim);
-
+        var monthylBudget = _context.monthlyBudget.FirstOrDefault(a => a.accountKey == accountKeyClaim && Model.TransactionDate.Month == a.budgetMonth.Month); 
+        
+        if (monthylBudget == null)
+        {
+            monthylBudget = new MonthlyBudget
+            {
+                accountKey = accountKeyClaim,
+                budgetMonth = Model.TransactionDate
+            };
+            _context.monthlyBudget.Add(monthylBudget);
+        }
 
         var NewTransaction = new Transactions
         {
@@ -75,11 +84,12 @@ public class HomeController : Controller
             Description = Model.Description 
         };
 
-        Account.AccountBudget -= Model.Amount; // updates the account budget after transaction
+
+
+        monthylBudget.AccountBudget -= Model.Amount; // updates the account budget after transaction
         _context.Transactions.Add(NewTransaction); // adds the transaction to the database
         _context.SaveChanges();
 
-        TempData["AccountBudget"] = Account.AccountBudget; // updates the view data with the new budget
         TempData["FirstName"] = Account.FirstName;
         TempData["LastName"] = Account.LastName;
 
@@ -95,10 +105,9 @@ public class HomeController : Controller
         if (transaction != null)
         {
             var AccountKey = User.FindFirst("AccountKey").Value;
+            var monthlyBudget = _context.monthlyBudget.FirstOrDefault(a => a.accountKey == AccountKey && transaction.TransactionDate.Month == a.budgetMonth.Month);
 
-            var Account = _context.AccountDetails.FirstOrDefault(a => a.AccountKey == AccountKey);
-            
-            Account.AccountBudget += transaction.Amount; // updates the account budget before deleting the transaction
+            monthlyBudget.AccountBudget += transaction.Amount; // updates the account budget before deleting the transaction
 
             _context.Transactions.Remove(transaction); // removes the transaction from the database
 
@@ -131,10 +140,10 @@ public class HomeController : Controller
         } else
         {
             var AccountKey = User.FindFirst("AccountKey").Value;
-            var Account = _context.AccountDetails.FirstOrDefault(a => a.AccountKey == AccountKey);
+            var monthlyBudget = _context.monthlyBudget.FirstOrDefault(a => a.accountKey == AccountKey && transaction.TransactionDate.Month == a.budgetMonth.Month);
 
-            Account.AccountBudget += transaction.Amount; // updates the account budget before editing the transaction
-            Account.AccountBudget -= TransactionAmount;
+            monthlyBudget.AccountBudget += transaction.Amount; // updates the account budget before editing the transaction
+            monthlyBudget.AccountBudget -= TransactionAmount;
 
             transaction.Amount = TransactionAmount; // updates the transaction amount
             transaction.Description = Description; // updates the transaction description

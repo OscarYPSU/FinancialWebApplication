@@ -58,13 +58,19 @@ namespace FinancialWebApplication.Controllers
                    new ClaimsPrincipal(ClaimsIdentity),
                    AuthProperties);
 
-                // Everytime user logs in, check if their account budget needs to be monthly resetted
-                if (UserDetail.LastUpdated.Month != DateTime.Now.Month)
+                // Everytime user logs in, check if there is a current monthly budget, else add a new one to the table of MonthlyBudget
+                var monthlyBudget = _context.monthlyBudget.FirstOrDefault(u => u.accountKey == user.AccountKey && DateTime.Now.Month == u.budgetMonth.Month);
+
+                if (monthlyBudget == null)
                 {
-                    UserDetail.AccountBudget = 250; // Reset budget to default
-                    UserDetail.LastUpdated = DateOnly.FromDateTime(DateTime.Now); // Update last updated date
-                    _context.Update(UserDetail);
-                    await _context.SaveChangesAsync();
+                    var newMonthlyBudget = new MonthlyBudget
+                    {
+                        accountKey = user.AccountKey,
+                        budgetMonth = DateTime.Now.Date
+                    };
+
+                    _context.monthlyBudget.Add(newMonthlyBudget);
+                    _context.SaveChanges();
                 }
 
                 return RedirectToAction("LoggedHome", "Home");
