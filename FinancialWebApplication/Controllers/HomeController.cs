@@ -71,8 +71,8 @@ public class HomeController : Controller
             AccountDetails = Account, // link to the account details
             TransactionType = Model.TransactionType,
             Amount = Model.Amount,
-            TransactionDate = DateTime.Now,
-            Description = Model.Description
+            TransactionDate = Model.TransactionDate,
+            Description = Model.Description 
         };
 
         Account.AccountBudget -= Model.Amount; // updates the account budget after transaction

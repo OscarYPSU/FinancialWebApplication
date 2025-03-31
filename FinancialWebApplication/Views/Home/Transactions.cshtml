@@ -14,6 +14,13 @@
     <!-- Transaction form -->
     <form asp-action="Transactions" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
+        
+        <div>
+            <label asp-for="TransactionDate">Date: </label> 
+            <input asp-for="TransactionDate" type="date" id="transactionDate" name="transactionDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+        </div>
+        
+
         <div>
             <label asp-for="Amount">Amount:</label>
             <input asp-for="Amount" type="number" step="0.01" required />
