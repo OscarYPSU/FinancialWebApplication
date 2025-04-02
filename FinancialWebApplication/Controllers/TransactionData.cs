@@ -1,4 +1,5 @@
 ﻿using FinancialWebApplication.Data;
+using FinancialWebApplication.Migrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,17 @@ namespace FinancialWebApplication.Controllers
             var transactionData = _context.Transactions.Where(s => s.AccountKey == user && s.TransactionDate.Year == Year && s.TransactionDate.Month == Month);
 
             return Ok(transactionData);
+        }
+
+        [Authorize]
+        [HttpGet("getMonthBudget")]
+        public async Task<IActionResult> getMonthBudget([FromQuery] int month)
+        {
+            var userClaim = User.FindFirst("AccountKey").Value;
+
+            var monthBudget = _context.monthlyBudget.Where(u => u.accountKey == userClaim && u.budgetMonth.Month == month); // gets the budget given the parameter "month"
+
+            return Ok(monthBudget); 
         }
 
     }
