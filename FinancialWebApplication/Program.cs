@@ -9,16 +9,19 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<FinancialWebApplicationContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("FinancialWebApplicationContext") ?? throw new InvalidOperationException("Connection string 'FinancialWebApplicationContext' not found.")));
+    options.UseNpgsql(connectionString)
+);
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromHours(1);
         options.SlidingExpiration = true;
-        // Create a Forbidden View for error page
-        options.AccessDeniedPath = "/Forbidden";
+        // redirects user to login page when user session fails
+        options.AccessDeniedPath = "/Login/Index";
     });
 
 // Add services to the container.

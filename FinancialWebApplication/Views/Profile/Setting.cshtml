@@ -1,0 +1,178 @@
+﻿@{
+    Layout = "_LayOutLoggedIn";
+    ViewData["Title"] = "Profile";
+}
+
+<style>
+    .notification {
+        position: fixed;
+        top: 10px;
+        right: 50%;
+        transform: translateX(50%);
+        background-color: #444;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .notification.show {
+        opacity: 1;
+    }
+</style>
+
+<label>First Name: </label>
+<input type="text" id="firstName" name="firstName" placeholder="@TempData["firstName"]"</input>
+<label>Last Name: </label>
+<input type="text" id="lastName" name="lastName" placeholder="@TempData["lastName"]"</input>
+<button id="changeName" style="margin-bottom: 20px;">Save Changes</button>
+
+<p style="margin:0px;">Change Budget Amount</p>
+<input type="number" id="budgetNum" name="budgetNum" placeholder="@TempData["defaultBudget"]" </input>
+<button id="changeBudget" style="margin-bottom: 20px;">Save Changes</button>
+
+<div>
+    <label>Date: </label>
+    <input type="date" id="monthBudgetDate" name="monthBudgetDate" class="form-control" style="margin-bottom:20px;"  value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+</div>
+<p style="margin:0px;"  >Change specific Budget Amount</p>
+
+<input type="number" id="specificBudgetNum" name="specificBudgetNum" </input>
+<button id="changeSpecificBudgetButton" style="margin-bottom:20px;">Save Changes</button>
+
+<form asp-controller="Profile" asp-action="updateImage" method="post" enctype="multipart/form-data" id="submitProfilePicChangeForm">
+    <p style="margin:0px;">Change Profile Picture</p>
+    <input type="file" accept="image/*" name="profileImage" id="profileImageInput" required />
+    <button type="submit" id="changeProfilePictureButton">Save Changes</button>
+</form>
+
+@section Scripts {
+    <script>
+        function notificationPopUp(){
+            const notification = document.createElement("div");
+            notification.className = "notification";
+            notification.innerText = "Saved Changes!";
+
+            document.body.append(notification);
+
+            setTimeout(() => {
+                notification.classList.add("show");
+            }, 10);
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                document.body.removeChild(notification);
+                }, 500); // Wait for fade-out transition to complete
+            }, 3000); // Display duration (3 seconds)
+        }
+
+        // Changing user's name
+        var changeNameButton = document.getElementById("changeName");
+        changeNameButton.addEventListener("click", function(){
+            if(document.getElementById("firstName").value){
+                var newFirstName = document.getElementById("firstName").value;
+            } else {
+                 var newFirstName = document.getElementById("firstName").placeholder;
+            }
+
+            if(document.getElementById("lastName").value){
+                var newLastName = document.getElementById("firstName").value;
+            } else {
+                 var newLastName = document.getElementById("firstName").placeholder;
+            }
+
+            // POST url for changing name. Parameters (first name, last name)
+            var url = "/Profile/changeName?firstName=" + newFirstName + "&lastName=" + newLastName;
+
+            fetch(url, {
+                method:"POST",
+                credentials: "include"
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("firstName").placeholder = data.firstName;
+                document.getElementById("lastName").placeholder = data.lastName;
+
+                // Calls notiifcation pop up 
+                notificationPopUp();
+            })
+
+        });
+
+        // Changing User's default budget
+        var changeBudgetButton = document.getElementById("changeBudget");
+        changeBudgetButton.addEventListener("click", function(){
+
+            if(document.getElementById("budgetNum").value){
+                var newBudget = document.getElementById("budgetNum").value;
+            } else {
+               var newBudget = document.getElementById("budgetNum").placeholder;
+            }
+
+            // POST url for updating user's default budget
+            var url = "/Profile/changeBudget?newBudget=" + newBudget;
+
+            // Sending the POST request
+            fetch(url, {
+                method:"POST",
+                credentials: "include"
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("budgetNum").placeholder = data.defaultBudget;
+                // Calls notiifcation pop up
+                notificationPopUp();
+            })
+        });
+        
+        // changing budget of a specified month
+        var changeSpecificBudgetButton = document.getElementById("changeSpecificBudgetButton");
+        changeSpecificBudgetButton.addEventListener("click", function(){
+            if(document.getElementById("specificBudgetNum").value){
+                var newBudget = document.getElementById("specificBudgetNum").value;
+                var newDate = document.getElementById("monthBudgetDate").value;
+
+                var url = "/Profile/ChangeBudgetForSpecificMonth?newBudget=" + newBudget + "&userDate=" + newDate;
+
+                // Send the POST request url
+                fetch(url, {
+                    method:"POST",
+                    credentials:"include"
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById("budgetNum").placeholder = 0;
+                    // Calls notiifcation pop up for successful changes
+                    notificationPopUp();
+                });
+            }
+
+        });
+
+        // Changing profile picture
+        var changeProfilePictureButton = document.getElementById("changeProfilePictureButton");
+        changeProfilePictureButton.addEventListener("click", function(){
+            if (document.getElementById("profileImageInput").files.length != 0){
+                event.preventDefault(); // Stops the form from submitting automatically
+                
+                // Calls the notification first then actually submit the form
+                notificationPopUp(); 
+                setTimeout(function(){
+                    document.getElementById("submitProfilePicChangeForm").submit()
+                }, 1500);
+            }
+        });
+
+    </script>
+}
+
+

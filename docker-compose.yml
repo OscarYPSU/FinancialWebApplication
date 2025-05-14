@@ -1,0 +1,23 @@
+services:
+  financialwebapplication:
+    image: ${DOCKER_REGISTRY-}financialwebapplication
+    build:
+      context: FinancialWebApplication
+      dockerfile: Dockerfile
+    ports:
+        - 8000:8000
+  app_database:
+    image: postgres:latest
+    container_name: FinancialDatabase
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=Oscarsgyang123
+        - POSTGRES_DB=postgres
+    ports:
+        - 5432:5432
+    restart: always
+    volumes:
+        - financialWebApplication:/var/lib/postgresql/data
+volumes:
+  financialWebApplication:
+    

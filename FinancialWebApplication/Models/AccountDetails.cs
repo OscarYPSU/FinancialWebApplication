@@ -16,7 +16,12 @@ namespace FinancialWebApplication.Models
 
         public ICollection<Transactions>? Transactions { get; set; }
 
-        public DateOnly LastUpdated { get; set; } = DateOnly.FromDateTime(DateTime.Now); // Default to today
+        public DateOnly LastUpdated { get; set; } = DateOnly.FromDateTime(DateTime.Now.Date); // Default to today
+
+        [Precision(20, 2)]
+        public decimal defaultBudget { get; set; } = 250;
+
+        public string? ProfileImagePath { get; set; }
 
     }
 }

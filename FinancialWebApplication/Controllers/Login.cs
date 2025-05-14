@@ -42,7 +42,7 @@ namespace FinancialWebApplication.Controllers
                 // Sets up the claims for the authenticated user
                 var claims = new List<Claim>
                 {
-                    new Claim("AccountKey", user.AccountKey)
+                    new Claim("AccountKey", user.AccountKey),
                     // find out how to utilize roles
                     // new Claim(ClaimTypes.Role, "Administrator"),
                 };
@@ -66,7 +66,8 @@ namespace FinancialWebApplication.Controllers
                     var newMonthlyBudget = new MonthlyBudget
                     {
                         accountKey = user.AccountKey,
-                        budgetMonth = DateTime.Now.Date
+                        budgetMonth = DateOnly.FromDateTime(DateTime.Now.Date),
+                        AccountBudget = UserDetail.defaultBudget
                     };
 
                     _context.monthlyBudget.Add(newMonthlyBudget);

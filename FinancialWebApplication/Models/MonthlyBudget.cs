@@ -10,9 +10,9 @@ namespace FinancialWebApplication.Models
         
         public string accountKey { get; set; }
 
-        public DateTime budgetMonth { get; set; }
+        public DateOnly budgetMonth { get; set; }
 
         [Precision(20, 2)]
-        public decimal AccountBudget { get; set; } = 250; // Default budget
+        public decimal AccountBudget { get; set; } // Default budget
     }
 }

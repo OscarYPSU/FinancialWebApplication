@@ -5,7 +5,7 @@
 namespace FinancialWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAccountDetailToAccountClass : Migration
+    public partial class DockerMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

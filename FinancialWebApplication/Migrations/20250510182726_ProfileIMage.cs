@@ -1,29 +1,27 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace FinancialWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdatingAccountDetails : Migration
+    public partial class ProfileIMage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateOnly>(
-                name: "LastUpdated",
+            migrationBuilder.AddColumn<string>(
+                name: "ProfileImagePath",
                 table: "AccountDetails",
-                type: "date",
-                nullable: false,
-                defaultValue: new DateOnly(1, 1, 1));
+                type: "text",
+                nullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "LastUpdated",
+                name: "ProfileImagePath",
                 table: "AccountDetails");
         }
     }

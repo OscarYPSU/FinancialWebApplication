@@ -5,27 +5,26 @@
 namespace FinancialWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAccountBudget : Migration
+    public partial class addDefaultBudgetToAccountDetailTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "AccountBudget",
+            migrationBuilder.AddColumn<decimal>(
+                name: "defaultBudget",
                 table: "AccountDetails",
-                type: "int",
+                type: "numeric(20,2)",
+                precision: 20,
+                scale: 2,
                 nullable: false,
-                defaultValue: 250);
-
-            // Set default value to 200 for existing records
-            migrationBuilder.Sql("UPDATE AccountDetails SET AccountBudget = 200 WHERE AccountBudget IS NULL");
+                defaultValue: 0m);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "AccountBudget",
+                name: "defaultBudget",
                 table: "AccountDetails");
         }
     }

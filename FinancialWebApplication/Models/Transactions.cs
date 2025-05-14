@@ -21,7 +21,7 @@ namespace FinancialWebApplication.Models
         [Precision(20, 2)]
         public decimal Amount { get; set; } // Amount of the transaction
 
-        public DateTime TransactionDate { get; set; } // Date and Time of the transactions
+        public DateOnly TransactionDate { get; set; } // Date and Time of the transactions
 
         public string Description { get; set; } // Optional description of the transaction
 

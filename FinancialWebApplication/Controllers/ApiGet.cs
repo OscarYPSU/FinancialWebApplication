@@ -1,19 +1,17 @@
 ﻿using FinancialWebApplication.Data;
-using FinancialWebApplication.Migrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
 
 namespace FinancialWebApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TransactionData : Controller
+    public class ApiGet : Controller
     {
+
         private readonly FinancialWebApplicationContext _context;
 
-        public TransactionData(FinancialWebApplicationContext context)
+        public ApiGet(FinancialWebApplicationContext context)
         {
             _context = context;
         }
@@ -36,10 +34,16 @@ namespace FinancialWebApplication.Controllers
         {
             var userClaim = User.FindFirst("AccountKey").Value;
 
-            var monthBudget = _context.monthlyBudget.Where(u => u.accountKey == userClaim && u.budgetMonth.Month == month); // gets the budget given the parameter "month"
+            var monthBudget = _context.monthlyBudget.FirstOrDefault(u => u.accountKey == userClaim && u.budgetMonth.Month == month); // gets the budget given the parameter "month"
 
-            return Ok(monthBudget); 
+            // Send user default budget incase no monthly budget has been used for that month
+            var accountDetail = _context.AccountDetails.FirstOrDefault(u => u.AccountKey == userClaim);
+
+            return Ok(new { monthBudget, accountDetail });
         }
-
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FinancialWebApplication.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/LoggedHome.css"/>
 </head>
 <body>
     <header>
@@ -14,6 +15,8 @@
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="LoggedHome">Home Page</a>
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Transactions">Transactions</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Profile"   asp-action="Setting">Settings</a>
+                <img src="@TempData["ProfileImagePath"]" class="RightSideNavigationBar" id="profileImage"/>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

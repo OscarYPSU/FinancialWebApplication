@@ -1,11 +1,10 @@
-using System.Diagnostics;
+ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FinancialWebApplication.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using FinancialWebApplication.Data;
-using FinancialWebApplication.Migrations;
 using System.Transactions;
 
 namespace FinancialWebApplication.Controllers;
@@ -45,6 +44,7 @@ public class HomeController : Controller
 
         TempData["FirstName"] = user.FirstName;
         TempData["LastName"] = user.LastName;
+        TempData["ProfileImagePath"] = user.ProfileImagePath;
 
         var datas = _context.Transactions.Where(s => s.AccountKey == User.FindFirst("AccountKey").Value).ToList();
         return View(datas);
@@ -53,6 +53,14 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult transactions()
     {
+        var AccountKey = User.FindFirst("AccountKey").Value;
+
+        var user = _context.AccountDetails.Where(s => s.AccountKey == AccountKey).FirstOrDefault();
+
+        TempData["FirstName"] = user.FirstName;
+        TempData["LastName"] = user.LastName;
+        TempData["ProfileImagePath"] = user.ProfileImagePath;
+
         return View();
     }
 
@@ -69,8 +77,9 @@ public class HomeController : Controller
             monthylBudget = new MonthlyBudget
             {
                 accountKey = accountKeyClaim,
-                budgetMonth = Model.TransactionDate
-            };
+                budgetMonth = Model.TransactionDate,
+                AccountBudget = Account.defaultBudget
+            }; 
             _context.monthlyBudget.Add(monthylBudget);
         }
 
@@ -131,7 +140,7 @@ public class HomeController : Controller
 
     [Authorize]
     [HttpPost]
-    public IActionResult Edit(int TransactionId, int TransactionAmount, string Description)
+    public IActionResult Edit(int TransactionId, decimal TransactionAmount, string Description)
     {
         var transaction = _context.Transactions.FirstOrDefault(t => t.TransactionId == TransactionId);
         if (transaction == null)

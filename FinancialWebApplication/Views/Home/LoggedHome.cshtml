@@ -13,6 +13,7 @@
 <div id = "currentMonthDisplay"></div>
 
 <div id="transactionDisp" style="display: flex;">
+
 </div>
 
 <div id="buttons">
@@ -26,11 +27,11 @@
         var currentMonth = currentDate.getMonth() + 1;
         var currentYear = currentDate.getFullYear();
        
-
+        // Initial page load
         document.addEventListener("DOMContentLoaded", function(){
-            var url = "/TransactionData/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
+            var url = "/ApiGet/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
 
-            var budgetUrl = "/TransactionData/getMonthBudget?" + "Month=" + currentMonth;
+            var budgetUrl = "/ApiGet/getMonthBudget?" + "Month=" + currentMonth;
 
             fetch(budgetUrl, {
                 method: "GET",
@@ -46,10 +47,10 @@
 
                 var p = document.createElement("p"); // creates a <p></p>
 
-                if (data[0] == null){
-                    p.textContent = "$250";
+                if (data.monthBudget == null){
+                    p.textContent = "$" + data.accountDetail["defaultBudget"];
                 } else {
-                    p.textContent = "$" + data[0].accountBudget;
+                    p.textContent = "$" + data.monthBudget["accountBudget"];
                 }
                 budgetDisplay.appendChild(p);
 
@@ -110,6 +111,7 @@
             
         })
 
+        // Last moonth button
         document.getElementById("left").addEventListener("click", function(){
 
             if (currentMonth == 1){
@@ -119,9 +121,9 @@
                 currentMonth -= 1;
             }
 
-            var url = "/TransactionData/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
+            var url = "/ApiGet/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
 
-            var budgetUrl = "/TransactionData/getMonthBudget?" + "Month=" + currentMonth;
+            var budgetUrl = "/ApiGet/getMonthBudget?" + "Month=" + currentMonth;
 
             fetch(budgetUrl, {
                 method: "GET",
@@ -138,10 +140,10 @@
                 var p = document.createElement("p"); // creates a <p></p>
 
 
-                if (data[0] == null){
-                    p.textContent = "$250";
+                if (data.monthBudget == null){
+                    p.textContent = "$" + data.accountDetail["defaultBudget"];
                 } else {
-                    p.textContent = "$" + data[0].accountBudget;
+                    p.textContent = "$" + data.monthBudget["accountBudget"];
                 }
                 budgetDisplay.appendChild(p);
 
@@ -202,6 +204,7 @@
 
         })
 
+        // Next month button
         document.getElementById("right").addEventListener("click", function(){
 
             if (currentMonth == 12){
@@ -211,9 +214,9 @@
                 currentMonth += 1;
             }
 
-            var url = "/TransactionData/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
+            var url = "/ApiGet/TransactionsData?" + "Month=" + currentMonth + "&Year=" + currentYear;
 
-            var budgetUrl = "/TransactionData/getMonthBudget?" + "Month=" + currentMonth;
+            var budgetUrl = "/ApiGet/getMonthBudget?" + "Month=" + currentMonth;
 
             fetch(budgetUrl, {
                 method: "GET",
@@ -230,10 +233,10 @@
                 var p = document.createElement("p"); // creates a <p></p>
 
 
-                if (data[0] == null){
-                    p.textContent = "$250";
+                if (data.monthBudget == null){
+                    p.textContent = "$" + data.accountDetail["defaultBudget"];
                 } else {
-                    p.textContent = "$" + data[0].accountBudget;
+                    p.textContent = "$" + data.monthBudget["accountBudget"];
                 }
                 budgetDisplay.appendChild(p);
             });

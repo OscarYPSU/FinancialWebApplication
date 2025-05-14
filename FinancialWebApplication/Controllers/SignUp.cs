@@ -38,7 +38,7 @@ namespace FinancialWebApplication.Controllers
                 {
                     Username = account.Username,
                     Password = account.Password,
-                    AccountCreationDateTime = DateTime.Now
+                    AccountCreationDateTime = DateTime.Now.ToUniversalTime()
                 };
 
                 _context.Account.Add(SignUpAccount);// adds the account to the database
